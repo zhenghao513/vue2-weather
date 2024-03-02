@@ -1,9 +1,22 @@
 <template>
-  <div></div>
+  <div class="container">
+    <h2>{{ locationName }}</h2>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      locationName: "",
+    };
+  },
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  text-align: center;
+  color: #fff;
+}
+</style>
