@@ -1,12 +1,14 @@
 <template>
   <div class="container">
     <h2>{{ locationName }}</h2>
-    <real-time
-      :temp="temp"
-      :text="text"
-      :tempMax="tempMax"
-      :tempMin="tempMin"
-    />
+    <div class="wrapper">
+      <real-time
+        :temp="temp"
+        :text="text"
+        :tempMax="tempMax"
+        :tempMin="tempMin"
+      />
+    </div>
   </div>
 </template>
 
@@ -30,5 +32,12 @@ export default {
 .container {
   text-align: center;
   color: #fff;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
 }
 </style>
