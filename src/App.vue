@@ -9,21 +9,54 @@
         :tempMin="tempMin"
       />
     </div>
+    <daily-forecast :daily="daily" />
   </div>
 </template>
 
 <script>
+import DailyForecast from "./components/DailyForecast.vue";
 import RealTime from "./components/RealTime.vue";
+import axios from "axios";
+
 export default {
-  components: { RealTime },
+  components: { RealTime, DailyForecast },
   data() {
     return {
       locationName: "",
+      location: "101010100",
       temp: 0,
-      text: "",
+      text: "晴",
       tempMax: 0,
       tempMin: 0,
+      daily: [],
     };
+  },
+  methods: {
+    async listDaily() {
+      const weather = await axios.get("/v7/weather/7d", {
+        params: {
+          location: this.location,
+          key: process.env.VUE_APP_KEY,
+        },
+      });
+
+      const air = await axios.get("/v7/air/now", {
+        params: {
+          location: this.location,
+          key: process.env.VUE_APP_KEY,
+        },
+      });
+
+      const length = weather.data.daily.length;
+      for (let i = 0; i < length; i++) {
+        weather.data.daily[i].category = air.data.station[i].category;
+      }
+
+      this.daily = weather.data.daily;
+    },
+  },
+  async mounted() {
+    await this.listDaily();
   },
 };
 </script>

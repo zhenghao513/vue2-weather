@@ -12,12 +12,12 @@ body {
   background: #83a4d4; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #b6fbff,
+    rgb(66, 132, 218),
     #83a4d4
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #b6fbff,
+    rgb(66, 132, 218),
     #83a4d4
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
@@ -26,4 +26,15 @@ body {
 
 body * + * {
   margin-top: 1.5em;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 1em;
+  min-height: 14.5em;
+}
+
+.card-body {
+  padding: 0.75em;
+  min-height: inherit;
 }
