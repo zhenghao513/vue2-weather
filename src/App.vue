@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <i class="el-icon-search search-btn"></i>
     <h2>{{ locationName }}</h2>
     <div class="wrapper">
       <real-time
@@ -162,5 +163,12 @@ export default {
   justify-content: center;
   align-items: center;
   height: 50vh;
+}
+
+.search-btn {
+  position: absolute;
+  top: 1.5em;
+  left: 1.5em;
+  font-size: 1.25rem;
 }
 </style>
