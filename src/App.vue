@@ -4,7 +4,7 @@
       <div @click.stop>
         <el-input
           v-model="input"
-          placeholder="请输入内容"
+          placeholder="搜索城市"
           @blur="searchCity"
         ></el-input>
       </div>
@@ -190,5 +190,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.van-overlay > div {
+  padding: 1.5em;
+  width: 100%;
 }
 </style>
