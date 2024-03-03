@@ -8,11 +8,11 @@
 
         <el-col :span="14">
           <span>{{ computedDay(index, item.fxDate) }}</span>
-          <span>&nbsp;{{ item.textDay }}转{{ item.textNight }}</span>
+          <span>&nbsp;{{ computedChange(item.textDay, item.textNight) }}</span>
         </el-col>
 
         <el-col :span="2">
-          <span class="category-tag">{{ item.category }}</span>
+          <span class="category-tag">{{ item.category.substring(0, 1) }}</span>
         </el-col>
         <el-col :span="6">{{ item.tempMax }}° / {{ item.tempMin }}°</el-col>
       </el-row>
@@ -45,6 +45,13 @@ export default {
         : index === 1
         ? "明天"
         : this.computedWeekday(date);
+    },
+    computedChange(textDay, textNight) {
+      if (textDay !== textNight) {
+        return `${textDay}转${textNight}`;
+      }
+
+      return textDay;
     },
   },
 };
