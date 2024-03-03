@@ -29,22 +29,22 @@
         <div class="card-content info">
           <div>
             <span>湿度</span>
-            <span>{{ now.humidity }}%</span>
+            <span>{{ now?.humidity }}%</span>
           </div>
 
           <div>
             <span>能见度</span>
-            <span>{{ now.vis }}公里</span>
+            <span>{{ now?.vis }}公里</span>
           </div>
 
           <div>
             <span>体感</span>
-            <span>{{ now.feelsLike }}°</span>
+            <span>{{ now?.feelsLike }}°</span>
           </div>
 
           <div>
             <span>气压</span>
-            <span>{{ now.pressure }}hPa</span>
+            <span>{{ now?.pressure }}hPa</span>
           </div>
         </div>
       </div>
