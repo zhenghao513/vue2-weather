@@ -11,6 +11,7 @@
     </div>
     <daily-forecast :daily="daily" />
     <hour-forecast :hour="hour" />
+    <weather-widget :now="now" :sunrise="sunrise" :sunset="sunset" />
   </div>
 </template>
 
@@ -19,9 +20,10 @@ import DailyForecast from "./components/DailyForecast.vue";
 import RealTime from "./components/RealTime.vue";
 import axios from "axios";
 import HourForecast from "./components/HourForecast.vue";
+import WeatherWidget from "./components/WeatherWidget.vue";
 
 export default {
-  components: { RealTime, DailyForecast, HourForecast },
+  components: { RealTime, DailyForecast, HourForecast, WeatherWidget },
   data() {
     return {
       locationName: "",
@@ -33,6 +35,8 @@ export default {
       daily: [],
       hour: [],
       now: null,
+      sunrise: "",
+      sunset: "",
     };
   },
   methods: {
@@ -83,11 +87,25 @@ export default {
 
       this.hour = hour.data.hourly;
     },
+
+    async getAstronomy() {
+      const res = await axios.get("/v7/astronomy/sun", {
+        params: {
+          location: this.location,
+          key: process.env.VUE_APP_KEY,
+          date: "20240303",
+        },
+      });
+
+      this.sunrise = res.data.sunrise;
+      this.sunset = res.data.sunset;
+    },
   },
   async mounted() {
     await this.getNow();
     await this.listDaily();
     await this.listHourly();
+    await this.getAstronomy();
   },
 };
 </script>
