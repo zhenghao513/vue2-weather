@@ -38,3 +38,9 @@ body * + * {
   padding: 0.75em;
   min-height: inherit;
 }
+
+.category-tag {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 0.125em 0.25em;
+  border-radius: 0.4em;
+}

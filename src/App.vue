@@ -10,6 +10,7 @@
       />
     </div>
     <daily-forecast :daily="daily" />
+    <hour-forecast :hour="hour" />
   </div>
 </template>
 
@@ -17,9 +18,10 @@
 import DailyForecast from "./components/DailyForecast.vue";
 import RealTime from "./components/RealTime.vue";
 import axios from "axios";
+import HourForecast from "./components/HourForecast.vue";
 
 export default {
-  components: { RealTime, DailyForecast },
+  components: { RealTime, DailyForecast, HourForecast },
   data() {
     return {
       locationName: "",
@@ -29,6 +31,7 @@ export default {
       tempMax: 0,
       tempMin: 0,
       daily: [],
+      hour: [],
     };
   },
   methods: {
@@ -40,6 +43,7 @@ export default {
         },
       });
 
+      // TODO: 未来一周天气预报
       const air = await axios.get("/v7/air/now", {
         params: {
           location: this.location,
@@ -54,9 +58,20 @@ export default {
 
       this.daily = weather.data.daily;
     },
+    async listHourly() {
+      const hour = await axios.get("/v7/weather/24h", {
+        params: {
+          location: this.location,
+          key: process.env.VUE_APP_KEY,
+        },
+      });
+
+      this.hour = hour.data.hourly;
+    },
   },
   async mounted() {
     await this.listDaily();
+    await this.listHourly();
   },
 };
 </script>
