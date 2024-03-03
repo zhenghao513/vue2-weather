@@ -26,15 +26,28 @@ export default {
     return {
       locationName: "",
       location: "101010100",
-      temp: 0,
+      temp: "0",
       text: "晴",
-      tempMax: 0,
-      tempMin: 0,
+      tempMax: "0",
+      tempMin: "0",
       daily: [],
       hour: [],
+      now: null,
     };
   },
   methods: {
+    async getNow() {
+      const res = await axios.get("/v7/weather/now", {
+        params: {
+          location: this.location,
+          key: process.env.VUE_APP_KEY,
+        },
+      });
+
+      this.now = res.data.now;
+      this.temp = this.now.temp;
+      this.text = this.now.text;
+    },
     async listDaily() {
       const weather = await axios.get("/v7/weather/7d", {
         params: {
@@ -57,6 +70,8 @@ export default {
       }
 
       this.daily = weather.data.daily;
+      this.tempMax = weather.data.daily[0].tempMax;
+      this.tempMin = weather.data.daily[0].tempMin;
     },
     async listHourly() {
       const hour = await axios.get("/v7/weather/24h", {
@@ -70,6 +85,7 @@ export default {
     },
   },
   async mounted() {
+    await this.getNow();
     await this.listDaily();
     await this.listHourly();
   },

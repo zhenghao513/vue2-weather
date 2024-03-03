@@ -17,20 +17,20 @@
 export default {
   props: {
     temp: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "0",
     },
     text: {
       type: String,
       default: "多云",
     },
     tempMax: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "0",
     },
     tempMin: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "0",
     },
   },
 };
