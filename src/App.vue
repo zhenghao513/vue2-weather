@@ -1,6 +1,15 @@
 <template>
   <div class="container">
-    <i class="el-icon-search search-btn"></i>
+    <van-overlay :show="show" @click="show = false">
+      <div @click.stop>
+        <el-input
+          v-model="input"
+          placeholder="请输入内容"
+          @blur="searchCity"
+        ></el-input>
+      </div>
+    </van-overlay>
+    <i class="el-icon-search search-btn" @click="show = true"></i>
     <h2>{{ locationName }}</h2>
     <div class="wrapper">
       <real-time
@@ -38,6 +47,8 @@ export default {
       now: null,
       sunrise: "",
       sunset: "",
+      show: false,
+      input: "",
     };
   },
   methods: {
@@ -134,7 +145,10 @@ export default {
       const locationObject = res.data.location[0];
 
       this.location = locationObject.id;
-      this.locationName = locationObject.adm2 + locationObject.name;
+      this.locationName = locationObject.name;
+    },
+    async searchCity() {
+      await this.lookup(this.input);
     },
   },
   async mounted() {
@@ -170,5 +184,11 @@ export default {
   top: 1.5em;
   left: 1.5em;
   font-size: 1.25rem;
+}
+
+.van-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
