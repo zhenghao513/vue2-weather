@@ -60,18 +60,16 @@ export default {
         },
       });
 
-      // TODO: 未来一周天气预报
-      const air = await axios.get("/v7/air/now", {
+      const air = await axios.get("/v7/air/5d", {
         params: {
           location: this.location,
           key: process.env.VUE_APP_KEY,
         },
       });
 
-      const length = weather.data.daily.length;
-      for (let i = 0; i < length; i++) {
-        weather.data.daily[i].category = air.data.station[i].category;
-      }
+      air.data.daily.forEach((item, index) => {
+        weather.data.daily[index].category = item.category;
+      });
 
       this.daily = weather.data.daily;
       this.tempMax = weather.data.daily[0].tempMax;
@@ -100,12 +98,55 @@ export default {
       this.sunrise = res.data.sunrise;
       this.sunset = res.data.sunset;
     },
+    async getLocation() {
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      };
+
+      const success = async (pos) => {
+        const crd = pos.coords;
+        await this.lookup(
+          `${crd.longitude.toFixed(2)},${crd.latitude.toFixed(2)}`
+        );
+      };
+
+      const error = () => {
+        this.$message("获取设备当前位置失败");
+      };
+
+      navigator.geolocation.getCurrentPosition(success, error, options);
+    },
+    async lookup(location) {
+      const instance = axios.create({
+        baseURL: "https://geoapi.qweather.com",
+      });
+
+      const res = await instance.get("/v2/city/lookup", {
+        params: {
+          location,
+          key: process.env.VUE_APP_KEY,
+        },
+      });
+
+      const locationObject = res.data.location[0];
+
+      this.location = locationObject.id;
+      this.locationName = locationObject.adm2 + locationObject.name;
+    },
   },
   async mounted() {
-    await this.getNow();
-    await this.listDaily();
-    await this.listHourly();
-    await this.getAstronomy();
+    await this.getLocation();
+  },
+  watch: {
+    async location(newValue) {
+      await this.lookup(newValue);
+      await this.getNow();
+      await this.listDaily();
+      await this.listHourly();
+      await this.getAstronomy();
+    },
   },
 };
 </script>
